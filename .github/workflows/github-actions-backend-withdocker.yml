@@ -56,4 +56,5 @@ jobs:
             backend/target/site/jacoco
       - name: Building Docker images
         run: |
-          ./backend/build.sh
+          cd backend
+          ./build.sh
