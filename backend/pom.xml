@@ -11,7 +11,7 @@
     <groupId>fr.univ-cotedazur</groupId>
     <artifactId>simpleTCFS</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>simpleTCFS</name>
     <description>simpleTCFS</description>
     <properties>
@@ -40,11 +40,56 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>failsafe</id>
+            <!-- Look at https://maven.apache.org/surefire/maven-surefire-plugin/examples/inclusion-exclusion.html
+                 and https://maven.apache.org/surefire/maven-failsafe-plugin/examples/inclusion-exclusion.html
+                 for patterns of classes inclusion in tests and IT -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.22.2</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <!-- attached to Maven test phase -->
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

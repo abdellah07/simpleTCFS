@@ -10,6 +10,7 @@ target/
 **/javadoc/
 **/apidocs/
 **/testapidocs/
+**/spring-shell.log
 
 ### STS ###
 .apt_generated
@@ -43,3 +44,6 @@ build/
 
 ### MacOS ###
 **/.DS_Store
+
+### Mono build ###
+**/*.exe
