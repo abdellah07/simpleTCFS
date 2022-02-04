@@ -2,8 +2,7 @@ name: Backend
 
 on:
   push:
-    branches:
-      - feature/github-action
+    branches: [feature/github-action]
     paths:
       - backend/**
 
