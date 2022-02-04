@@ -5,12 +5,20 @@ on:
     branches:
       - '**'
     paths:
-      - '**'
+      - backend/**
 
 jobs:
   Backend:
     runs-on: ubuntu-20.04
     steps:
+      - name: Cache local Maven repository
+        id: cache-maven
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Check out repository code
         uses: actions/checkout@v2
       - name: Install java 11 (Temurin)
@@ -41,6 +49,7 @@ jobs:
           fi
       - name: Build the backend
         working-directory: ./backend
+        if: steps.cache-maven.outputs.cache-hit != 'true'
         run: mvn clean install
       - name: Archive Backend jar
         uses: actions/upload-artifact@v2
